@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="./index.js"></script>
+</head>
+<body>
+    <div x-data="{
+        init() {
+            $store.brews.load()
+        }
+    }"
+      class="flex flex-row min-h-screen justify-center items-center">
+
+      <form @submit.prevent>
+        <div class="mb-8 mr-10" x-data="{city: ''}">
+            <label for="helper-text" class="block mb-2 text-lg font-medium text-gray-900 dark:text-white">Enter Your City</label>
+            <input x-model="city" type="text" id="helper-text" aria-describedby="helper-text-explanation" 
+              class="bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              placeholder="Chicago">
+              <button type="submit" @click="$store.brews.search(city)" class="mt-3 float-left bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Search</button>
+          </div>
+      </form>
+
+      
+      <div class="relative overflow-x-auto shadow-md sm:rounded-lg" >
+        <table  
+          class="w-full text-lg text-left text-gray-500 dark:text-gray-400">
+            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                <tr>
+                    <th scope="col" class="px-6 py-3">
+                        Brewery Name
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Address
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Phone Number
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Type
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                      Url
+                  </th>
+                </tr>
+            </thead>
+            <tbody>
+                <template x-for="brew in $store.brews.breweries" :key="brew.name">
+                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                    >
+                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                        x-text="brew.name">
+                    </th>
+                    <td class="px-6 py-4" x-text="brew.address_1">
+                        
+                    </td>
+                    <td class="px-6 py-4" x-text="brew.phone">
+                        
+                    </td>
+                    <td class="px-6 py-4" x-text="brew.brewery_type">
+                        
+                    </td>
+                    <td class="px-6 py-4 text-right" >
+                        <a :href="brew.website_url" x-text="brew.website_url" class="font-medium text-blue-600 dark:text-blue-500 hover:underline"></a>
+                    </td>
+                </tr>
+            </template>
+            </tbody>
+        </table>
+    </div>
+    </div>
+</body>
+</html>
